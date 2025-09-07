@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Complete</h1>
+    <p>Congratulations! You have completed the quiz.</p>
+    <div id="timeResult" style="font-size:1.2em; color:#0078d4; margin:20px 0;"></div>
+    <button class="btn" onclick="resetAndGoHome()">Back to Home</button>
+    <script>
+        // Retrieve and display the stopwatch time
+        const time = sessionStorage.getItem('stopwatch');
+        if (time) {
+            document.getElementById('timeResult').textContent = "Your time: " + time;
+        } else {
+            document.getElementById('timeResult').textContent = "No time recorded.";
+        }
+
+        function resetAndGoHome() {
+        sessionStorage.removeItem('stopwatch');
+        sessionStorage.removeItem('stopwatchStart');
+        window.location.href = '../dashboard/dashboard.html';
+    }
+    </script>
+</body>
+</html>

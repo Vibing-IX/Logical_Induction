@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Credits</title>
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+            padding: 40px 30px 30px 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #005fa3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            color: #222;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+        .hall-of-fame-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+        }
+        .fame-card {
+            background: #f0f4ff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,120,212,0.08);
+            width: 220px;
+            padding: 24px 16px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .fame-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 8px 24px rgba(0,120,212,0.15);
+        }
+        .fame-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0078d4;
+            margin-bottom: 16px;
+        }
+        .fame-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0078d4;
+            margin-bottom: 6px;
+        }
+        .fame-desc {
+            color: #444;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Credits</h1>
+        <div class="subtitle">Celebrating our top achievers and legends</div>
+        <div class="hall-of-fame-list">
+            <div class="fame-card">
+                <img class="fame-photo" src="nigg.jpg" alt="N*gg*">
+                <div class="fame-name">N*gg*</div>
+                <div class="fame-desc">Dev?<br>Score: ??%</div>
+            </div>
+            <div class="fame-card">
+                <img class="fame-photo" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Smith">
+                <div class="fame-name">Jane Smith</div>
+                <div class="fame-desc">Fastest Finisher<br>Time: 1m 12s</div>
+            </div>
+            <div class="fame-card">
+                <img class="fame-photo" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Alex Lee">
+                <div class="fame-name">Alex Lee</div>
+                <div class="fame-desc">Most Improved<br>+30% Score Increase</div>
+            </div>
+            <div class="fame-card">
+                <img class="fame-photo" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Maria Garcia">
+                <div class="fame-name">Maria Garcia</div>
+                <div class="fame-desc">Perfect Score<br>100% Correct Answers</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn" onclick="location.href='../dashboard/dashboard.html'">Back to Dashboard</button>
+</body>
+</html>

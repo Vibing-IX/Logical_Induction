@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Quiz - Question 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .option-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 250px;
+        }
+        .option-btn:hover {
+            background-color: #005fa3;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Which planet is known as the Red Planet?</h2>
+    <button class="option-btn" onclick="wrongAnswer()">Venus</button>
+    <button class="option-btn" onclick="rightAnswer()">Mars</button>
+    <button class="option-btn" onclick="wrongAnswer()">Jupiter</button>
+    <button class="option-btn" onclick="wrongAnswer()">Saturn</button>
+    <div id="feedback" class="feedback"></div>
+    <script>
+        function rightAnswer() {
+            const order = JSON.parse(sessionStorage.getItem('quizOrder'));
+            let idx = Number(sessionStorage.getItem('quizIndex')) || 0;
+            idx++;
+            sessionStorage.setItem('quizIndex', idx);
+            if (order && idx < order.length) {
+                window.location.href = order[idx];
+            } else {
+                // LAST QUESTION: Stop and save stopwatch
+                clearInterval(stopwatchInterval);
+                const start = Number(sessionStorage.getItem('stopwatchStart'));
+                const elapsed = Date.now() - start;
+                sessionStorage.setItem('stopwatch', formatTime(elapsed));
+                window.location.href = "comp.html";
+            }
+        }
+        function wrongAnswer() {
+            document.getElementById('feedback').textContent = "Incorrect! Try again.";
+        }
+        // Start or continue the stopwatch when the quiz page loads
+        function updateStopwatchLabel() {
+            const now = Date.now();
+            const start = sessionStorage.getItem('stopwatchStart');
+            if (start) {
+                const elapsed = now - start;
+                document.getElementById('stopwatchLabel').textContent = "Time: " + formatTime(elapsed);
+            }
+        }
+
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const tenths = Math.floor((ms % 1000) / 100);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}.${tenths}`;
+        }
+
+        let stopwatchInterval;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create stopwatch label if not present
+            if (!document.getElementById('stopwatchLabel')) {
+                const label = document.createElement('div');
+                label.id = 'stopwatchLabel';
+                label.style.position = 'absolute';
+                label.style.top = '30px';
+                label.style.right = '50px';
+                label.style.fontSize = '1.1em';
+                label.style.color = '#0078d4';
+                document.body.appendChild(label);
+            }
+            updateStopwatchLabel();
+            stopwatchInterval = setInterval(updateStopwatchLabel, 100);
+        });
+
+        // On the last question or when quiz ends, you can stop and save the time:
+        clearInterval(stopwatchInterval);
+        const start = Number(sessionStorage.getItem('stopwatchStart'));
+        const elapsed = Date.now() - start;
+        sessionStorage.setItem('stopwatch', formatTime(elapsed));
+    </script>
+</body>
+</html>

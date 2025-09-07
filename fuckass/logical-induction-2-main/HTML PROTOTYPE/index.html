@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #005fa3;
+        }
+        .login-box {
+            margin: 0 auto 30px auto;
+            max-width: 350px;
+            background: #f5f6fa;
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,120,212,0.08);
+        }
+        .login-input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .error-msg {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Homepage</h1>
+    <div class="login-box">
+        <input type="text" id="username" class="login-input" placeholder="Username" autocomplete="username">
+        <input type="password" id="password" class="login-input" placeholder="Password" autocomplete="current-password">
+        <button class="btn" onclick="login()">Login</button>
+        <div id="error" class="error-msg"></div>
+        <div style="margin-top:15px;">
+            <a href="register/registration.html" style="color:#0078d4;text-decoration:underline;">Don't have an account? Register here</a>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Dexie DB
+        const db = new Dexie("UserDatabase");
+        db.version(1).stores({
+            users: "++id,username,passwordHash"
+        });
+
+        // Hashing function using Web Crypto API (SHA-256)
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        // For demonstration, add a test user if not exists
+        (async () => {
+            const existing = await db.users.where('username').equals("testuser").first();
+            if (!existing) {
+                const passwordHash = await hashPassword("testpass");
+                await db.users.add({username: "testuser", passwordHash});
+            }
+        })();
+
+        async function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = "";
+
+            if (!username || !password) {
+                errorDiv.textContent = "Please enter username and password.";
+                return;
+            }
+
+            const passwordHash = await hashPassword(password);
+
+            const user = await db.users
+                .where({username, passwordHash})
+                .first();
+
+            if (user) {
+                sessionStorage.setItem('username', username);
+                sessionStorage.setItem('profilePic', user.profilePic || "");
+                window.location.href = 'dashboard/dashboard.html';
+            } else {
+                errorDiv.textContent = "Account is not registered.";
+            }
+        }
+    </script>
+</body>
+</html>
